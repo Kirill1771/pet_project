@@ -1,18 +1,14 @@
-from rest_framework import permissions
+import io
+from rest_framework import serializers
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+
+from .models import Production
 
 
-class IsAdminOrReadOnly(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
-            return True
+class WomenSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
-        return bool(request.user and request.user.is_staff)
-
-
-class IsOwnerOrReadOnly(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        return obj.user == request.user
-
+    class Meta:
+        model = Production
+        fields = "__all__"
