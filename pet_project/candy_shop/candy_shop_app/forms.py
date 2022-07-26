@@ -13,10 +13,10 @@ class AddPostForm(forms.ModelForm):
         self.fields['cat'].empty_label = "Категория не выбрана"
 
     class Meta:
-        model = Women
-        fields = ['title', 'slug', 'content', 'photo', 'is_published', 'cat']
+        model = Production
+        fields = ['name_prod', 'slug', 'compound', 'photo', 'cat']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-input'}),
+            'name_prod': forms.TextInput(attrs={'class': 'form-input'}),
             'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
         }
 
