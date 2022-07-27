@@ -63,52 +63,19 @@ class Price(models.Model):
         ordering = ['prod', 'pack', 'price']
 
 
-class Storage1(models.Model):
+class Storage(models.Model):
     prod = models.ForeignKey('Production', on_delete=models.PROTECT, verbose_name="Продукция")
     pack = models.ForeignKey('Package', on_delete=models.PROTECT, verbose_name="Вариант упаковки")
     count_prod = models.IntegerField(verbose_name="Количество")
 
     class Meta:
-        verbose_name = "Склад 1"
-        verbose_name_plural = "Склад 1"
+        verbose_name = "Склад"
+        verbose_name_plural = "Склад"
         ordering = ['prod']
-
-
-class Storage2(models.Model):
-    prod = models.ForeignKey('Production', on_delete=models.PROTECT, verbose_name="Продукция")
-    count_prod = models.IntegerField(verbose_name="Количество")
-
-    class Meta:
-        verbose_name = "Склад 2"
-        verbose_name_plural = "Склад 2"
-        ordering = ['prod']
-
-
-class Factory1(models.Model):
-    prod = models.ForeignKey('Production', on_delete=models.PROTECT, verbose_name="Продукция")
-    pack = models.ForeignKey('Package', on_delete=models.PROTECT, verbose_name="Вариант упаковки")
-    days = models.FloatField(max_length=20, verbose_name="Количество дней")
-
-    class Meta:
-        verbose_name = "Фабрика 1"
-        verbose_name_plural = "Фабрика 1"
-        ordering = ['prod', 'days']
-
-
-class Factory2(models.Model):
-    prod = models.ForeignKey('Production', on_delete=models.PROTECT, verbose_name="Продукция")
-    pack = models.ForeignKey('Package', on_delete=models.PROTECT, verbose_name="Вариант упаковки")
-    days = models.FloatField(max_length=20, verbose_name="Количество дней")
-
-    class Meta:
-        verbose_name = "Фабрика 2"
-        verbose_name_plural = "Фабрика 2"
-        ordering = ['prod', 'days']
 
 
 class Cities(models.Model):
     name_city = models.CharField(max_length=50, verbose_name='Название города')
-    days = models.FloatField(max_length=20, verbose_name="Количество дней")
 
     def __str__(self):
         return self.name_city

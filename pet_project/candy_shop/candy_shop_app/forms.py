@@ -11,18 +11,20 @@ class AddProductionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cat'].empty_label = "Категория не выбрана"
+        self.fields['name_package'].empty_label = "Вариант упаковки не выбран"
 
     class Meta:
-        model = Production
-        fields = ['name_prod', 'slug', 'compound', 'photo', 'cat']
+        model = Production, Package, Price
+        fields = ['name_prod', 'slug', 'compound', 'photo', 'cat', 'name_package', 'price']
         widgets = {
             'name_prod': forms.TextInput(attrs={'class': 'form-input'}),
             'compound': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
             'photo': forms.ImageField(),
             'cat': forms.ModelChoiceField(
-                queryset=Category.objects.values_list('name', flat=True).distinct(),
-                empty_label=None
-                )
+                queryset=Category.objects.values_list('name', flat=True).distinct()),
+            'name_package': forms.ModelChoiceField(
+                queryset=Package.objects.values_list('name_package', flat=True).distinct()),
+            'price': forms.IntegerField(attrs={'class': 'form-input'}),
         }
 
     def clean_name_prod(self):
@@ -54,3 +56,24 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label='Email')
     content = forms.CharField(widget=forms.Textarea(attrs={'cols': 60, 'rows': 10}))
     captcha = CaptchaField()
+
+
+class Ordering(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cat'].empty_label = "Категория не выбрана"
+        self.fields['name_package'].empty_label = "Вариант упаковки не выбран"
+
+    # class Meta:
+    #     model = Production, Package, Price, Cities
+    #     fields = ['name_prod', 'cat', 'name_package', 'price', 'name_city']
+    #     widgets = {
+    #         'name_prod': forms.TextInput(attrs={'class': 'form-input'}),
+    #         'compound': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+    #         'photo': forms.ImageField(),
+    #         'cat': forms.ModelChoiceField(
+    #             queryset=Category.objects.values_list('name', flat=True).distinct()),
+    #         'name_package': forms.ModelChoiceField(
+    #             queryset=Package.objects.values_list('name_package', flat=True).distinct()),
+    #         'price': forms.IntegerField(attrs={'class': 'form-input'})
+    #     }
