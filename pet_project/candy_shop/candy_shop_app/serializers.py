@@ -6,7 +6,7 @@ from rest_framework.parsers import JSONParser
 from .models import Production
 
 
-class WomenSerializer(serializers.ModelSerializer):
+class CandyShopSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:

@@ -12,7 +12,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 from .permissions import IsAdminOrReadOnly
-from .serializers import WomenSerializer
+from .serializers import CandyShopSerializer
 from .forms import *
 from .models import *
 from .utils import *
@@ -42,7 +42,7 @@ class CandyShopHome(DataMixin, ListView):
 
 
 class AddPage(LoginRequiredMixin, DataMixin, CreateView):
-    form_class = AddPostForm
+    form_class = AddProductionForm
     template_name = '#'
     success_url = reverse_lazy('home')
     login_url = reverse_lazy('home')
@@ -73,7 +73,7 @@ def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 
-class ShowPost(DataMixin, DetailView):
+class ShowProduction(DataMixin, DetailView):
     model = Production
     template_name = '#'
     slug_url_kwarg = 'post_slug'
@@ -144,20 +144,20 @@ class CandyAPIListPagination(PageNumberPagination):
 
 
 class CandyAPIList(generics.ListCreateAPIView):
-    queryset = Women.objects.all()
-    serializer_class = WomenSerializer
+    queryset = Production.objects.all()
+    serializer_class = CandyShopSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    pagination_class = WomenAPIListPagination
+    pagination_class = CandyAPIListPagination
 
 
 class CandyAPIUpdate(generics.RetrieveUpdateAPIView):
-    queryset = Women.objects.all()
-    serializer_class = WomenSerializer
+    queryset = Production.objects.all()
+    serializer_class = CandyShopSerializer
     permission_classes = (IsAuthenticated,)
     # authentication_classes = (TokenAuthentication,)
 
 
 class CandyAPIDestroy(generics.RetrieveDestroyAPIView):
-    queryset = Women.objects.all()
-    serializer_class = WomenSerializer
+    queryset = Production.objects.all()
+    serializer_class = CandyShopSerializer
     permission_classes = (IsAdminOrReadOnly,)
