@@ -44,28 +44,17 @@ class StorageAdmin(admin.ModelAdmin):
     search_fields = ('prod',)
 
 
-class FactoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'prod', 'pack', 'days')
-    list_display_links = ('id', 'prod')
-    search_fields = ('prod',)
-    list_filter = ('pack', 'days')
-
-
 class CitiesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name_city', 'days')
+    list_display = ('id', 'name_city')
     list_display_links = ('id', 'name_city')
     search_fields = ('name_city',)
-    list_filter = ('days',)
 
 
 admin.site.register(Production, ProductionAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Package, PackageAdmin)
 admin.site.register(Price, PriceAdmin)
-admin.site.register(Storage1, StorageAdmin)
-admin.site.register(Storage2, StorageAdmin)
-admin.site.register(Factory1, FactoryAdmin)
-admin.site.register(Factory2, FactoryAdmin)
+admin.site.register(Storage, StorageAdmin)
 admin.site.register(Cities, CitiesAdmin)
 
 admin.site.site_title = 'Админ-панель сайта кондитерских изделий'
