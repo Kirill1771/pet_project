@@ -38,18 +38,6 @@ class CandyShopHome(DataMixin, ListView):
 #     return render(request, 'women/about.html', {'page_obj': page_obj, 'menu': menu, 'title': 'О сайте'})
 
 
-class AddPage(LoginRequiredMixin, DataMixin, CreateView):
-    form_class = AddProductionForm
-    template_name = '#'
-    success_url = reverse_lazy('home')
-    login_url = reverse_lazy('home')
-    raise_exception = True
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Добавление продукции")
-        return dict(list(context.items()) + list(c_def.items()))
-
 
 class ContactFormView(DataMixin, FormView):
     form_class = ContactForm
@@ -158,3 +146,16 @@ class CandyAPIDestroy(generics.RetrieveDestroyAPIView):
     queryset = Production.objects.all()
     serializer_class = CandyShopSerializer
     permission_classes = (IsAdminOrReadOnly,)
+
+
+class MakeOrder(LoginRequiredMixin, DataMixin, CreateView):
+    form_class = Ordering
+    template_name = '#'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Оформление заказа")
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('home')
