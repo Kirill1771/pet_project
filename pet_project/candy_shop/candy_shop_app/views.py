@@ -11,6 +11,7 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from cart.cart import Cart
+from pet_project.candy_shop.mycart.forms import CartAddProductForm
 
 from .permissions import IsAdminOrReadOnly
 from .serializers import CandyShopSerializer
@@ -170,3 +171,11 @@ def order_create(request):
         form = OrderCreateForm
     return render(request, 'orders/order/create.html',
                   {'cart': cart, 'form': form})
+def product_detail(request, id, slug):
+    product = get_object_or_404(Production,
+                                id=id,
+                                slug=slug,
+                                available=True)
+    cart_product_form = CartAddProductForm()
+    return render(request, 'shop/product/detail.html', {'product': product,
+                                                        'cart_product_form': cart_product_form})
