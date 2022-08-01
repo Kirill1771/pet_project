@@ -25,37 +25,22 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
-class PackageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name_package')
-    list_display_links = ('id', 'name_package')
-    search_fields = ('name_package',)
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    raw_id_fields = ['product']
 
 
-class PriceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'prod', 'pack', 'price')
-    list_display_links = ('id', 'prod')
-    search_fields = ('prod',)
-    list_filter = ('pack',)
-
-
-class StorageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'prod', 'count_prod')
-    list_display_links = ('id', 'prod')
-    search_fields = ('prod',)
-
-
-class CitiesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name_city')
-    list_display_links = ('id', 'name_city')
-    search_fields = ('name_city',)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'first_name', 'last_name', 'email',
+                    'address', 'postal_code', 'city', 'paid',
+                    'created', 'updated']
+    list_filter = ['paid', 'created', 'updated']
+    inlines = [OrderItemInline]
 
 
 admin.site.register(Production, ProductionAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Package, PackageAdmin)
-admin.site.register(Price, PriceAdmin)
-admin.site.register(Storage, StorageAdmin)
-admin.site.register(Cities, CitiesAdmin)
+admin.site.register(Order, OrderAdmin)
 
 admin.site.site_title = 'Админ-панель сайта кондитерских изделий'
 admin.site.site_header = 'Админ-панель сайта кондитерских изделий'

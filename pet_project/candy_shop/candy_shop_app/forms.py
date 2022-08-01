@@ -58,22 +58,7 @@ class ContactForm(forms.Form):
     captcha = CaptchaField()
 
 
-class Ordering(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['cat'].empty_label = "Категория не выбрана"
-        self.fields['name_package'].empty_label = "Вариант упаковки не выбран"
-
-    # class Meta:
-    #     model = Production, Package, Price, Cities
-    #     fields = ['name_prod', 'cat', 'name_package', 'price', 'name_city']
-    #     widgets = {
-    #         'name_prod': forms.TextInput(attrs={'class': 'form-input'}),
-    #         'compound': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
-    #         'photo': forms.ImageField(),
-    #         'cat': forms.ModelChoiceField(
-    #             queryset=Category.objects.values_list('name', flat=True).distinct()),
-    #         'name_package': forms.ModelChoiceField(
-    #             queryset=Package.objects.values_list('name_package', flat=True).distinct()),
-    #         'price': forms.IntegerField(attrs={'class': 'form-input'})
-    #     }
+class OrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['first_name', 'last_name', 'email', 'address', 'postal_code', 'city']

@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from cart.cart import Cart
 
 from .permissions import IsAdminOrReadOnly
 from .serializers import CandyShopSerializer
@@ -36,7 +37,6 @@ class CandyShopHome(DataMixin, ListView):
 #     page_number = request.GET.get('page')
 #     page_obj = paginator.get_page(page_number)
 #     return render(request, 'women/about.html', {'page_obj': page_obj, 'menu': menu, 'title': 'О сайте'})
-
 
 
 class ContactFormView(DataMixin, FormView):
@@ -148,14 +148,22 @@ class CandyAPIDestroy(generics.RetrieveDestroyAPIView):
     permission_classes = (IsAdminOrReadOnly,)
 
 
-class MakeOrder(LoginRequiredMixin, DataMixin, CreateView):
-    form_class = Ordering
-    template_name = '#'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Оформление заказа")
-        return dict(list(context.items()) + list(c_def.items()))
-
-    def get_success_url(self):
-        return reverse_lazy('home')
+def order_create(request):
+    cart = Cart(request)
+    if request.method == 'POST':
+        form = OrderCreateForm(request.POST)
+        if form.is_valid():
+            order = form.save()
+            for item in cart:
+                OrderItem.objects.create(order=order,
+                                         product=item['product'],
+                                         price=item['price'],
+                                         quantity=item['quantity'])
+            # очистка корзины
+            cart.clear()
+            return render(request, 'orders/order/created.html',
+                          {'order': order})
+    else:
+        form = OrderCreateForm
+    return render(request, 'orders/order/create.html',
+                  {'cart': cart, 'form': form})
