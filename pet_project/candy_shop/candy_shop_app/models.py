@@ -18,10 +18,11 @@ class Production(models.Model):
         return self.name_prod
 
     def get_absolute_url(self):
-        return reverse('post', kwargs={'post_slug': self.slug})
+        return reverse('candy_shop_app:product_detail',
+                       args=[self.id, self.slug])
 
     class Meta:
-        verbose_name = "Ассортимент"
+        verbose_name = " Ассортимент"
         verbose_name_plural = "Ассортимент"
         ordering = ['name_prod']
         index_together = (('id', 'slug'),)
@@ -35,7 +36,8 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('category', kwargs={'cat_slug': self.slug})
+        return reverse('candy_shop_app:product_list_by_category',
+                       args=[self.slug])
 
     class Meta:
         verbose_name = "Категория"
@@ -67,8 +69,8 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, related_name='items')
-    product = models.ForeignKey(Production, related_name='order_items')
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Production, on_delete=models.CASCADE, related_name='order_items')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
 

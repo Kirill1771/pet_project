@@ -5,23 +5,14 @@ from .models import *
 
 
 class ProductionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name_prod', 'slug', 'compound', 'get_html_photo', 'cat')
-    list_display_links = ('id', 'name_prod')
-    search_fields = ('name_prod',)
-    list_filter = ('cat',)
-    prepopulated_fields = {'slug': ('name_prod',)}
-
-    def get_html_photo(self, object):
-        if object.photo:
-            return mark_safe(f"<img src='{object.photo.url}' width=50>")
-
-    get_html_photo.short_description = 'Миниатюра'
+    list_display = ['name', 'slug', 'price', 'stock', 'available', 'created', 'updated']
+    list_filter = ['available', 'created', 'updated']
+    list_editable = ['price', 'stock', 'available']
+    prepopulated_fields = {'slug': ('name',)}
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'slug')
-    list_display_links = ('id', 'name')
-    search_fields = ('name',)
+    list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
 
 

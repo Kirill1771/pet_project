@@ -14,16 +14,14 @@ class AddProductionForm(forms.ModelForm):
         self.fields['name_package'].empty_label = "Вариант упаковки не выбран"
 
     class Meta:
-        model = Production, Package, Price
-        fields = ['name_prod', 'slug', 'compound', 'photo', 'cat', 'name_package', 'price']
+        model = Production
+        fields = ['name_prod', 'slug', 'compound', 'photo', 'cat', 'price']
         widgets = {
             'name_prod': forms.TextInput(attrs={'class': 'form-input'}),
             'compound': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
             'photo': forms.ImageField(),
             'cat': forms.ModelChoiceField(
                 queryset=Category.objects.values_list('name', flat=True).distinct()),
-            'name_package': forms.ModelChoiceField(
-                queryset=Package.objects.values_list('name_package', flat=True).distinct()),
             'price': forms.IntegerField(attrs={'class': 'form-input'}),
         }
 
