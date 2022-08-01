@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework_simplejwt',
     'mycart',
+    'orders',
+    'captcha',
 ]
 
 MIDDLEWARE = [
