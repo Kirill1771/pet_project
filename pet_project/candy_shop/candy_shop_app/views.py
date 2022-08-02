@@ -1,4 +1,4 @@
-from django.contrib.auth import logout, login
+from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
@@ -120,7 +120,27 @@ class CandyCategory(DataMixin, ListView):
 #
 #     def get_success_url(self):
 #         return reverse_lazy('home')
-#
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginUserForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(username=cd['username'], password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Authenticated successfully')
+                else:
+                    return HttpResponse('Disabled account')
+            else:
+                return HttpResponse('Invalid login')
+    else:
+        form = LoginUserForm()
+    return render(request, 'account/login.html', {'form': form})
+
+
 #
 # def logout_user(request):
 #     logout(request)
