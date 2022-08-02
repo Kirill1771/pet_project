@@ -153,27 +153,6 @@ class CandyCategory(DataMixin, ListView):
 #     permission_classes = (IsAdminOrReadOnly,)
 
 
-def order_create(request):
-    cart = Cart(request)
-    if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
-        if form.is_valid():
-            order = form.save()
-            for item in cart:
-                OrderItem.objects.create(order=order,
-                                         product=item['product'],
-                                         price=item['price'],
-                                         quantity=item['quantity'])
-            # очистка корзины
-            cart.clear()
-            return render(request, 'orders/order/created.html',
-                          {'order': order})
-    else:
-        form = OrderCreateForm
-    return render(request, 'orders/order/create.html',
-                  {'cart': cart, 'form': form})
-
-
 def product_detail(request, id, slug):
     product = get_object_or_404(Production,
                                 id=id,

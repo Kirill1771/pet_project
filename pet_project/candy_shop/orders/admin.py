@@ -1,6 +1,4 @@
 from django.contrib import admin
-
-from django.contrib import admin
 from .models import Order, OrderItem
 
 
@@ -15,5 +13,6 @@ class OrderAdmin(admin.ModelAdmin):
                     'created', 'updated']
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
+
 
 admin.site.register(Order, OrderAdmin)
