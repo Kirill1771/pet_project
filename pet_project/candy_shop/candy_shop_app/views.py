@@ -93,60 +93,6 @@ class CandyCategory(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
 
-# class RegisterUser(DataMixin, CreateView):
-#     form_class = RegisterUserForm
-#     template_name = '#'
-#     success_url = reverse_lazy('login')
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         c_def = self.get_user_context(title="Регистрация")
-#         return dict(list(context.items()) + list(c_def.items()))
-#
-#     def form_valid(self, form):
-#         user = form.save()
-#         login(self.request, user)
-#         return redirect('home')
-#
-#
-# class LoginUser(DataMixin, LoginView):
-#     form_class = LoginUserForm
-#     template_name = '#'
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         c_def = self.get_user_context(title="Авторизация")
-#         return dict(list(context.items()) + list(c_def.items()))
-#
-#     def get_success_url(self):
-#         return reverse_lazy('home')
-
-
-def user_login(request):
-    if request.method == 'POST':
-        form = LoginUserForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponse('Authenticated successfully')
-                else:
-                    return HttpResponse('Disabled account')
-            else:
-                return HttpResponse('Invalid login')
-    else:
-        form = LoginUserForm()
-    return render(request, 'account/login.html', {'form': form})
-
-
-#
-# def logout_user(request):
-#     logout(request)
-#     return redirect('login')
-#
-#
 # class CandyAPIListPagination(PageNumberPagination):
 #     page_size = 3
 #     page_size_query_param = 'page_size'
