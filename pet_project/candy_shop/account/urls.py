@@ -19,4 +19,6 @@ urlpatterns = [
             'django.contrib.auth.views.password_reset_confirm', name='password_reset_confirm'),
     path(r'^password-reset/complete/$', 'django.contrib.auth.views.password_reset_complete',
             name='password_reset_complete'),
+    path(r'^register/$', views.register, name='register'),
+    path(r'^edit/$', views.edit, name='edit'),
 ]
