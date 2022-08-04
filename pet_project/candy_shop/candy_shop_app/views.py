@@ -1,23 +1,14 @@
-from django.contrib.auth import logout, login, authenticate
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
-from django.core.paginator import Paginator
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, FormView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, FormView
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from cart.cart import Cart
 from mycart.forms import CartAddProductForm
-from orders.models import OrderItem
 
 from .permissions import IsAdminOrReadOnly
 from .serializers import CandyShopSerializer
-from .forms import *
-from .models import *
 from .utils import *
 
 
@@ -45,10 +36,10 @@ from .utils import *
 #     def form_valid(self, form):
 #         print(form.cleaned_data)
 #         return redirect('home')
-
-
-def pageNotFound(request, exception):
-    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+#
+#
+# def pageNotFound(request, exception):
+#     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 
 def product_list(request, category_slug=None):
