@@ -18,11 +18,10 @@ class Production(models.Model):
         return self.name_prod
 
     def get_absolute_url(self):
-        return reverse('candy_shop_app:product_detail',
-                       args=[self.id, self.slug])
+        return reverse('prod', kwargs={'prod_slug': self.slug})
 
     class Meta:
-        verbose_name = " Ассортимент"
+        verbose_name = "Ассортимент"
         verbose_name_plural = "Ассортимент"
         ordering = ['name_prod']
         index_together = (('id', 'slug'),)
@@ -36,11 +35,9 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('candy_shop_app:product_list_by_category',
-                       args=[self.slug])
+        return reverse('cat', kwargs={'prod_cat': self.slug})
 
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
         ordering = ['name']
-

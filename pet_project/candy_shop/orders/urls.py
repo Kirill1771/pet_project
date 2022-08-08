@@ -1,7 +1,7 @@
-from django.urls import path
+from django.urls import re_path
 from . import views
 
 
 urlpatterns = [
-    path(r'^create/$', views.order_create, name='order_create'),
+    re_path(r'^create/$', views.order_create, name='order_create'),
 ]

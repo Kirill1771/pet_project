@@ -6,7 +6,6 @@ from .models import Profile
 from .forms import LoginUserForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 
 
-
 def user_login(request):
     if request.method == 'POST':
         form = LoginUserForm(request.POST)
@@ -23,12 +22,12 @@ def user_login(request):
                 return HttpResponse('Invalid login')
     else:
         form = LoginUserForm()
-    return render(request, 'account/login.html', {'form': form})
+    return render(request, '#', {'form': form})
 
 
 @login_required
 def dashboard(request):
-    return render(request, 'account/dashboard.html', {'section': 'dashboard'})
+    return render(request, '#', {'section': 'dashboard'})
 
 
 def register(request):
@@ -42,10 +41,10 @@ def register(request):
             # Save the User object
             new_user.save()
             profile = Profile.objects.create(user=new_user)
-            return render(request, 'account/register_done.html', {'new_user': new_user})
+            return render(request, '#', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'account/register.html', {'user_form': user_form})
+    return render(request, '#', {'user_form': user_form})
 
 
 @login_required
@@ -60,8 +59,6 @@ def edit(request):
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
         return render(request,
-                      'account/edit.html',
+                      '#',
                       {'user_form': user_form,
                        'profile_form': profile_form})
-
-
