@@ -1,8 +1,9 @@
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from candy_shop_app.models import Production, Category
+from .permissions import IsAdminOrReadOnly
 from .serializers import ProductionSerializer, CategorySerializer
 
 
@@ -28,7 +29,7 @@ class ProductionAPIUpdate(generics.RetrieveUpdateAPIView):
 class ProductionAPIDestroy(generics.RetrieveDestroyAPIView):
     queryset = Production.objects.all()
     serializer_class = ProductionSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
 
 
 class CategoryAPIList(generics.ListCreateAPIView):
@@ -41,10 +42,10 @@ class CategoryAPIList(generics.ListCreateAPIView):
 class CategoryAPIUpdate(generics.RetrieveUpdateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
 
 
 class CategoryAPIDestroy(generics.RetrieveDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)

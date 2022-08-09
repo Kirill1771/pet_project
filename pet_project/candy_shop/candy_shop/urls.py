@@ -8,8 +8,8 @@ urlpatterns = [
     re_path(r'^', include('candy_shop_app.urls'), name='candy_shop'),
     re_path(r'^cart/', include('mycart.urls'), name='cart'),
     re_path(r'^orders/', include('orders.urls'), name='orders'),
-    re_path(r'^account/', include('account.urls')),
-    re_path('api/', include('api.urls')),
+    re_path(r'^account/', include('account.urls'), name='account'),
+    re_path(r'^api/', include('api.urls'), name='api'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
