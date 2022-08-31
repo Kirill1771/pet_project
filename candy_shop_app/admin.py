@@ -1,19 +1,17 @@
 from django.contrib import admin
-from django.utils.safestring import mark_safe
 
-from .models import *
-
-
-class ProductionAdmin(admin.ModelAdmin):
-    list_display = ['name_prod', 'slug', 'price', 'stock', 'available', 'created', 'updated']
-    list_filter = ['available', 'created', 'updated']
-    list_editable = ['price', 'stock', 'available']
-    prepopulated_fields = {'slug': ('name_prod',)}
+from .models import Category, Production
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug']
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {"slug": ('name',)}
+
+
+class ProductionAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ('name_prod',)}
+    list_display = ('name_prod', 'sku', 'price', 'slug', 'is_active',)
+    ordering = ['-is_active', 'name_prod']
+    list_filter = ('is_active',)
 
 
 admin.site.register(Production, ProductionAdmin)

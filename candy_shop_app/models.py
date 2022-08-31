@@ -1,43 +1,71 @@
-from django.db import models
 from django.urls import reverse
-
-
-class Production(models.Model):
-    name_prod = models.CharField(max_length=50, db_index=True, verbose_name='Название')
-    slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
-    compound = models.TextField(blank=True, verbose_name="Состав")
-    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True, verbose_name="Фотография")
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name="Категория")
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
-    stock = models.PositiveIntegerField(verbose_name="Остаток")
-    available = models.BooleanField(default=True, verbose_name="Доступно")
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Создано")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Обновлено")
-
-    def __str__(self):
-        return self.name_prod
-
-    def get_absolute_url(self):
-        return reverse('prod', kwargs={'prod_slug': self.slug})
-
-    class Meta:
-        verbose_name = "Ассортимент"
-        verbose_name_plural = "Ассортимент"
-        ordering = ['name_prod']
-        index_together = (('id', 'slug'),)
+from django.db import models
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=30, db_index=True, verbose_name="Категория")
-    slug = models.SlugField(max_length=30, unique=True, db_index=True, verbose_name='URL')
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(unique=True)
+
+    _metadata = {
+        'description': 'description',
+    }
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def get_absolute_url(self):
+        return reverse('products:index', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse('cat', kwargs={'prod_cat': self.slug})
+
+class ProductionQuerySet(models.QuerySet):
+    def active(self):
+        return self.filter(is_active=True)
+
+
+class ProductionManager(models.Manager):
+    def get_queryset(self):
+        return ProductionQuerySet(self.model, using=self.db)
+
+    def all(self):
+        return self.get_queryset().active()
+
+
+class Production(models.Model):
+    name_prod = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True)
+    sku = models.CharField(
+        max_length=50,
+        verbose_name='Reference Number',
+        unique=True
+    )
+    created_at = models.DateTimeField(auto_now=True, db_index=True)
+    updated_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    perex = models.TextField(max_length=255)
+    content = models.TextField(verbose_name='Content Description')
+    category = models.ManyToManyField(Category, blank=True)
+    is_active = models.BooleanField(default=True, verbose_name='Active')
+    is_featured = models.BooleanField(default=False, verbose_name='Featured')
+
+    objects = ProductionManager()
+
+    _metadata = {
+        'description': 'content',
+    }
 
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
-        ordering = ['name']
+        ordering = ['-created_at']
+
+    @property
+    def get_image_url(self):
+        return self.image.url
+
+    def get_absolute_url(self):
+        return reverse('products:detail', kwargs={'slug': self.slug})
+
+    def __str__(self):
+        return self.name

@@ -3,7 +3,7 @@ from django import apps
 
 class AppConfig(apps.AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = "orders"
+    name = 'cart'
 
     def ready(self):
         # noinspection PyUnresolvedReferences

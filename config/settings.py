@@ -32,11 +32,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'candy_shop_app.apps.CandyShopAppConfig',
     'rest_framework',
-    'mycart',
+    'users',
+    'cart',
     'orders',
-    'account',
-    'users'
-
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -59,14 +57,16 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
-                'mycart.context_processors.cart',
             ],
         },
     },
@@ -147,3 +147,11 @@ DATABASES = {
         'PORT': '3306'
     }
 }
+
+EMAIL_ADMIN = 'testklipakirill@gmail.com'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'testklipakirill@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
