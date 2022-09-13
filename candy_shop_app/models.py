@@ -36,16 +36,10 @@ class ProductionManager(models.Manager):
 class Production(models.Model):
     name_prod = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
-    sku = models.CharField(
-        max_length=50,
-        verbose_name='Reference Number',
-        unique=True
-    )
     created_at = models.DateTimeField(auto_now=True, db_index=True)
     updated_at = models.DateTimeField(auto_now_add=True, db_index=True)
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    perex = models.TextField(max_length=255)
     content = models.TextField(verbose_name='Content Description')
     category = models.ManyToManyField(Category, blank=True)
     is_active = models.BooleanField(default=True, verbose_name='Active')

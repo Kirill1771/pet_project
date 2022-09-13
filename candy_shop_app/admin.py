@@ -9,7 +9,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ProductionAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ('name_prod',)}
-    list_display = ('name_prod', 'sku', 'price', 'slug', 'is_active',)
+    list_display = ('name_prod', 'price', 'slug', 'is_active',)
     ordering = ['-is_active', 'name_prod']
     list_filter = ('is_active',)
 
