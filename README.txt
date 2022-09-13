@@ -6,7 +6,6 @@ Tools:
 Back-End: Python 3.8, Django 4.0.6, Django Rest Framework 3.13.1
 Database: MySQL
 
-cd candy_shop
 virtualenv venv
 pip install -r requirements.txt
 python manage.py runserver
