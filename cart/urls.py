@@ -8,5 +8,5 @@ urlpatterns = [
     re_path(r'^remove/(?P<product_id>[0-9]+)/$', RemoveCartItemView.as_view(), name='remove'),
     re_path(r'^update/(?P<pk>[0-9]+)/$', UpdateCartItemView.as_view(), name='update'),
     path('api/cart/', CartDetailView.as_view(), name='cart'),
-    re_path(r'api/cart/(?P<id>[0-9]+)/$', CartUpdateDeleteView.as_view(), name='update'),
+    re_path(r'api/cart/(?P<id>[0-9]+)/$', CartUpdateDeleteView.as_view(), name='update_cart'),
 ]
