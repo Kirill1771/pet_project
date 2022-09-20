@@ -3,6 +3,7 @@ from django.db import models
 
 
 class Category(models.Model):
+    """Модель категорий"""
     name = models.CharField(max_length=50)
     slug = models.SlugField(unique=True)
 
@@ -34,6 +35,7 @@ class ProductionManager(models.Manager):
 
 
 class Production(models.Model):
+    """Модель продукции"""
     name_prod = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     created_at = models.DateTimeField(auto_now=True, db_index=True)

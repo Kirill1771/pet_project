@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 
 class CategoryDetailView(DetailView):
+    """Информация о конкретной категории"""
     model = Category
     slug_url_kwarg = 'category_slug'
     template_name = "#"
@@ -25,12 +26,14 @@ class CategoryDetailView(DetailView):
 
 
 class ProductsListView(ListView):
+    """Информация о всей продукции"""
     model = Production
     queryset = Production.objects.all().active().prefetch_related('image')
     template_name = "#"
 
 
 class ProductDetailView(DetailView):
+    """Информация о конкретной продукции"""
     model = Production
     template_name = "#"
 
@@ -41,6 +44,7 @@ class ProductDetailView(DetailView):
 
 
 class ProductionListAPI(views.APIView):
+    """API продукции с методами get и post"""
     permission_classes = [permissions.AllowAny]
 
     def get_permissions(self):
@@ -74,6 +78,7 @@ class ProductionListAPI(views.APIView):
 
 
 class CategoryListAPI(views.APIView):
+    """API категорий с методами get и post"""
     permission_classes = [permissions.AllowAny]
 
     def get_permissions(self):

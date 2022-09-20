@@ -9,6 +9,7 @@ from candy_shop_app.models import Production
 
 
 class Address(models.Model):
+    """Адрес"""
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     postcode = models.CharField(max_length=25)
@@ -40,6 +41,7 @@ ORDER_STATUS_CHOICES = (
 
 
 class Order(models.Model):
+    """Заказ"""
     slug = models.SlugField(unique=True, editable=False)
     cart = models.ForeignKey(Cart, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.DO_NOTHING)
@@ -100,6 +102,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    """Заказаный продукт"""
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Production, related_name='order_items', on_delete=models.DO_NOTHING)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -114,6 +117,7 @@ class OrderItem(models.Model):
 
 
 class Delivery(models.Model):
+    """Доставка"""
     name = models.CharField(max_length=125)
     price = models.PositiveIntegerField(default=0)
     delivery_time = models.TextField(max_length=255)

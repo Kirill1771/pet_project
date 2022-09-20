@@ -5,18 +5,21 @@ from users.models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
+    """Создание пользователя"""
     class Meta(UserCreationForm):
         model = CustomUser
         fields = ('email',)
 
 
 class CustomUserChangeForm(UserChangeForm):
+    """Изменение пользователя"""
     class Meta:
         model = CustomUser
         fields = ('email',)
 
 
 class CustomUserRegistrationForm(forms.ModelForm):
+    """Регистрация пользователя"""
     email = forms.EmailField(widget=forms.widgets.EmailInput)
 
     password1 = forms.CharField(
@@ -50,6 +53,7 @@ class CustomUserRegistrationForm(forms.ModelForm):
 
 
 class CustomUserLoginForm(forms.Form):
+    """Логин"""
     email = forms.EmailField(widget=forms.widgets.EmailInput)
     password = forms.CharField(widget=forms.PasswordInput(), label="Password")
 

@@ -3,6 +3,7 @@ from .models import CartItem
 
 
 class AddToCartForm(forms.ModelForm):
+    """Добавление продукции в корзину"""
     class Meta:
         model = CartItem
         fields = [

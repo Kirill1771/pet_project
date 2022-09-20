@@ -4,6 +4,7 @@ from django.db import models
 
 
 class CustomUserManager(BaseUserManager):
+    """Кастомный UserManager"""
     def create_user(self, email, password=None, **kwargs):
         user = self.model(
             email=self.normalize_email(email),
@@ -24,6 +25,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    """Кастомная модель пользователей"""
     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     email = models.EmailField(blank=False, unique=True)
     created = models.DateField(auto_now_add=True)

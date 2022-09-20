@@ -5,6 +5,7 @@ from .models import Order
 
 
 class ShippingAddressForm(forms.ModelForm):
+    """Адрес доставки"""
     class Meta:
         model = Address
         fields = ['street', 'city', 'postcode', 'country']

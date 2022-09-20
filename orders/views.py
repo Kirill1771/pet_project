@@ -7,6 +7,7 @@ from .models import Order
 
 
 class CheckoutOrderCreateView(TemplateView):
+    """Создание заказа, создание адреса доставки"""
     template_name = '#'
 
     def dispatch(self, request, *args, **kwargs):
@@ -67,6 +68,7 @@ class CheckoutOrderCreateView(TemplateView):
 
 
 class OrderConfirmationView(DetailView):
+    """Потверждение заказа"""
     model = Order
     template_name = "#"
 

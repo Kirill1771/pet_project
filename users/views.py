@@ -18,6 +18,7 @@ def profile_index(request):
 
 
 class ProfileDetail(LoginRequiredMixin, DetailView):
+    """Подробности профиля конкретного"""
     template_name = "#"
     login_url = reverse_lazy('profiles:login')
     model = CustomUser
@@ -27,6 +28,7 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
 
 
 class RegistrationFormView(FormView):
+    """Регистрация"""
     template_name = "#"
     form_class = CustomUserRegistrationForm
     success_url = reverse_lazy('products:index')
@@ -50,6 +52,7 @@ class RegistrationFormView(FormView):
 
 
 class UpdateProfileForm(LoginRequiredMixin, UpdateView):
+    """Изменение профиля"""
     template_name = '#'
     form_class = CustomUserRegistrationForm
     model = CustomUser
@@ -61,6 +64,7 @@ class UpdateProfileForm(LoginRequiredMixin, UpdateView):
 
 
 class ProfileOrdersView(LoginRequiredMixin, ListView):
+    """Заказы конкретного профиля"""
     model = Order
     template_name = '#'
     login_url = reverse_lazy('profiles:login')
@@ -73,12 +77,14 @@ class ProfileOrdersView(LoginRequiredMixin, ListView):
 
 
 class ProfileOrderDetailView(LoginRequiredMixin, DetailView):
+    """Подробности конкретного заказа конкретного профиля"""
     model = Order
     template_name = '#'
     login_url = reverse_lazy('profiles:login')
 
 
 class AuthenticationForm(FormView):
+    """Процесс аутентификации"""
     template_name = '#'
     form_class = CustomUserLoginForm
     success_url = reverse_lazy('products:index')
@@ -106,5 +112,6 @@ class AuthenticationForm(FormView):
 
 
 def logout_view(request):
+    """Выход из системы"""
     logout(request)
     return HttpResponseRedirect('/')

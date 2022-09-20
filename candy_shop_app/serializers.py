@@ -3,6 +3,7 @@ from .models import *
 
 
 class ProductionSerializer(serializers.ModelSerializer):
+    """Сериализатор данных о всей продукции"""
     def __init__(self, *args, **kwargs):
         super(ProductionSerializer, self).__init__(*args, **kwargs)
         request = self.context.get('request')
@@ -24,6 +25,7 @@ class ProductionSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    """Сериализатор данных о всех категориях"""
     class Meta:
         model = Category
         fields = ('id', 'name')

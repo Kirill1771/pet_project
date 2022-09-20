@@ -5,6 +5,7 @@ from candy_shop_app.models import Production
 
 
 class Cart(models.Model):
+    """Корзина"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
     session_key = models.CharField(max_length=255, null=True)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
@@ -30,6 +31,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
+    """Элемент корзины"""
     cart = models.ForeignKey(Cart, null=True, related_name='items', blank=True, on_delete=models.DO_NOTHING)
     product = models.ForeignKey(Production, related_name='products', on_delete=models.DO_NOTHING)
     date_added = models.DateTimeField(auto_now_add=True)

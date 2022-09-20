@@ -34,6 +34,7 @@ class CartView(TemplateView):
 
 
 class RemoveCartItemView(DeleteView):
+    """Удаление элемента из корзины"""
     model = CartItem
     success_url = reverse_lazy('cart:index')
     success_message = "The item has been deleted from your cart."
@@ -49,6 +50,7 @@ class RemoveCartItemView(DeleteView):
 
 
 class UpdateCartItemView(FormView):
+    """Обновление элемента в корзине"""
     http_method_names = ['post']
     success_url = reverse_lazy('cart:index')
     form_class = AddToCartForm
@@ -69,6 +71,7 @@ class UpdateCartItemView(FormView):
 
 
 class AddToCartView(FormView):
+    """Добавление элемента в корзину"""
     template_name = '#'
     success_url = reverse_lazy('cart:index')
     http_method_names = ['post']
@@ -92,6 +95,7 @@ class AddToCartView(FormView):
 
 
 class CartDetailView(APIView):
+    """API Информация о продукции в корзине"""
     def get(self, request):
         cart = get_cart(request)
         serializer = serializers.CartSerializer(cart)
@@ -99,6 +103,7 @@ class CartDetailView(APIView):
 
 
 class CartUpdateDeleteView(APIView):
+    """API обновление/удаление продукции в корзине"""
     def get_object(self, id):
         try:
             cart = get_cart(self.request)
