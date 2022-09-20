@@ -1,27 +1,17 @@
 import os
 from pathlib import Path
 from django.urls import reverse_lazy
-import json
-from django.core.exceptions import ImproperlyConfigured
-
-with open('secrets.json') as secrets_file:
-    secrets = json.load(secrets_file)
-
-
-def get_secret(setting, secrets=secrets):
-    try:
-        return secrets[setting]
-    except KeyError:
-        raise ImproperlyConfigured("Set the {} setting".format(setting))
+from . import config
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = config.load_config('.env')
 
-SECRET_KEY = get_secret('SECRET_KEY')
+SECRET_KEY = env.django.secret_key
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.django.allowed_hosts.split(' ')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -57,6 +47,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
+        'APP_DIRS':True,
         'OPTIONS': {
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
@@ -139,19 +130,18 @@ REST_FRAMEWORK = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'candy_shop',
-        'USER': 'root',
-        'PASSWORD': get_secret('PASSWORD'),
-        'HOST': '127.0.0.1',
-        'PORT': '3306'
+        'ENGINE': env.db.engine,
+        'NAME': env.db.name,
+        "USER": env.db.user,
+        "PASSWORD": env.db.password,
+        "HOST": env.db.host,
+        "PORT": env.db.port,
     }
 }
 
-EMAIL_ADMIN = 'testklipakirill@gmail.com'
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'testklipakirill@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_ADMIN = env.email.admin
+EMAIL_HOST = env.email.host
+EMAIL_HOST_USER = env.email.host_user
+EMAIL_HOST_PASSWORD = env.email.host_password
+EMAIL_PORT = env.email.port
+EMAIL_USE_TLS = env.email.use_tls
